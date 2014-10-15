@@ -1,2 +1,2 @@
-issue-tracker-ui-marionette-js
-==============================
+# Issue Tracker User Interface
+**Backbone.Marionette Stack**
