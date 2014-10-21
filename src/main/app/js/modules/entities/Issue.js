@@ -1,5 +1,6 @@
 IssueTrackerApp.module('Entities', function(Entities, IssueTrackerApp, Backbone, Marionette, $, _) {
 
+  // Define the Model for an Issue entity
   Entities.Issue = Backbone.Model.extend({
 
     defaults: {
@@ -28,6 +29,7 @@ IssueTrackerApp.module('Entities', function(Entities, IssueTrackerApp, Backbone,
   });
 
 
+  // Define a Collection of Issue entities
   Entities.IssueCollection = Backbone.Collection.extend({
 
     model: Entities.Issue,
@@ -37,6 +39,7 @@ IssueTrackerApp.module('Entities', function(Entities, IssueTrackerApp, Backbone,
   });
   
   
+  // Define the Controller for the Entities Module
   var EntitiesController = Marionette.Controller.extend({
 
     getIssues: function() {
@@ -53,9 +56,11 @@ IssueTrackerApp.module('Entities', function(Entities, IssueTrackerApp, Backbone,
     
   });
 
+  // Create an instance
   var controller = new EntitiesController();
 
   
+  // Handle request for a Collection of Issue Entities
   IssueTrackerApp.reqres.setHandler('issue:entities', function() {
     logger.debug("received 'issue:entities' request");
     return controller.getIssues();

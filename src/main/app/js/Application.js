@@ -1,9 +1,9 @@
 // Global jQuery AJAX Settings
-$.ajaxSetup({
-  xhrFields: {
-    withCredentials: true
-  }
-});
+//$.ajaxSetup({
+//  xhrFields: {
+//    withCredentials: true
+//  }
+//});
 
 // Customize the Renderer to use Namespacing
 Backbone.Marionette.Renderer.render = function(template, data) {
@@ -15,6 +15,7 @@ window.IssueTrackerApp = new Backbone.Marionette.Application();
 
 // Navigate to a route
 IssueTrackerApp.navigate = function(route, options) {
+  logger.debug("navigating to " + route);
   options = options || {};
   Backbone.history.navigate(route, options);
 };
@@ -36,6 +37,9 @@ IssueTrackerApp.addRegions({
 IssueTrackerApp.on('start', function(options) {
   logger.debug("Backbone.history.start");
   Backbone.history.start();
+
+  // Launch the Issue List
+  IssueTrackerApp.execute('issuemanager:list');
 });
 
 
