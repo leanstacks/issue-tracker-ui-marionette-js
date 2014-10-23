@@ -49,7 +49,7 @@ module.exports = function(grunt) {
               }
             },
             files : {
-              'dist/assets/app/js/app.templates-<%= pkg.version %>.js' : 'src/main/app/templates/*.html'
+              'dist/assets/app/js/app-templates-<%= pkg.version %>.js' : 'src/main/app/templates/*.html'
             }
           }
         },
