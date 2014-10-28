@@ -2,7 +2,6 @@ IssueTrackerApp.module('Footer', function(Footer, IssueTrackerApp, Backbone, Mar
 
   Footer.FooterView = Backbone.Marionette.ItemView.extend({
   
-    tagName: 'div',
     className: 'container-fluid',
     template: 'footer'
 
