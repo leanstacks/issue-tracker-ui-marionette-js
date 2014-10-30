@@ -28,6 +28,15 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
   var controller = new IssueManagerController();
 
 
+  // When the module is initialized...
+  IssueManager.addInitializer(function() {
+    logger.debug("IssueManager initializer");
+    var router = new IssueManagerRouter({
+      controller: controller
+    });
+  });
+
+
   // Handle application commands...
   IssueTrackerApp.commands.setHandler('issuemanager:list', function() {
     logger.debug("Handling 'issues:list' command");
@@ -35,15 +44,6 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
     $.when(fetchingIssues).done(function(issues) {
       IssueTrackerApp.navigate('issues');
       controller.list(issues);
-    });
-  });
-
-
-  // When the module is initialized...
-  IssueManager.addInitializer(function() {
-    logger.debug("IssueManager initializer");
-    var router = new IssueManagerRouter({
-      controller: controller
     });
   });
   
