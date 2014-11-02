@@ -6,7 +6,7 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     sourcemaps = require('gulp-sourcemaps'),
     minifycss = require('gulp-minify-css'),
-    server = require('gulp-server-livereload'),
+    server = require('gulp-webserver'),
     del = require('del');
 
 var config = {

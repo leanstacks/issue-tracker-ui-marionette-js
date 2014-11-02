@@ -19,8 +19,8 @@
     "gulp-rename": "^1.2.0",
     "gulp-concat": "^2.4.1",
     "gulp-minify-css": "^0.3.11",
-    "gulp-server-livereload": "^1.0.1",
     "gulp-template-compile": "^0.2.1",
-    "gulp-sourcemaps": "^1.2.4"
+    "gulp-sourcemaps": "^1.2.4",
+    "gulp-webserver": "^0.8.6"
   }
 }
