@@ -13,12 +13,15 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
   // Define the Controller for the IssueManager module
   var IssueManagerController = Marionette.Controller.extend({
 
-    list: function(issues) {
+    list: function() {
       logger.debug("IssueManagerController.list");
-      var listView = new IssueManager.IssueListView({
-        collection: issues
+      var fetchingIssues = IssueTrackerApp.request('issue:entities');
+      $.when(fetchingIssues).done(function(issues) {
+        var listView = new IssueManager.IssueListView({
+          collection: issues
+        });
+        IssueTrackerApp.mainRegion.show(listView);
       });
-      IssueTrackerApp.mainRegion.show(listView);
     }
 
   });
@@ -40,11 +43,8 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
   // Handle application commands...
   IssueTrackerApp.commands.setHandler('issuemanager:list', function() {
     logger.debug("Handling 'issues:list' command");
-    var fetchingIssues = IssueTrackerApp.request('issue:entities');
-    $.when(fetchingIssues).done(function(issues) {
-      IssueTrackerApp.navigate('issues');
-      controller.list(issues);
-    });
+    IssueTrackerApp.navigate('issues');
+    controller.list();
   });
   
 });
