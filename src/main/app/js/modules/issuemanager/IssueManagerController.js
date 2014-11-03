@@ -20,6 +20,7 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
         var listView = new IssueManager.IssueListView({
           collection: issues
         });
+        logger.debug("Show IssueListView in IssueTrackerApp.mainRegion");
         IssueTrackerApp.mainRegion.show(listView);
       });
     }
