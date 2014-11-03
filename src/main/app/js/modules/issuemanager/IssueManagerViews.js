@@ -27,8 +27,6 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
 
     childViewContainer: 'tbody',
 
-    tagName: 'div',
-
     className: 'container-fluid',
 
     template: 'issuelist'
