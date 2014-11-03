@@ -33,8 +33,9 @@ IssueTrackerApp.addRegions({
   footerRegion : '#footer-region'
 });
 
-// Initialize the Router
+// Application start Callback Function
 IssueTrackerApp.on('start', function(options) {
+  // Initialize the Router
   logger.debug("Backbone.history.start");
   Backbone.history.start();
 
