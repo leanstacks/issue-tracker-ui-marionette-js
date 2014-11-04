@@ -70,6 +70,7 @@ gulp.task('run', ['lib', 'templates', 'scripts', 'html', 'css'], function() {
   gulp.watch('src/main/app/js/**/*.js', ['scripts']);
   gulp.watch('src/main/app/*.html', ['html']);
   gulp.watch('src/main/app/css/**/*.css', ['css']);
+  gulp.watch('lib/**', ['lib']);
 
   gulp.src('dist')
     .pipe(server({
