@@ -3,6 +3,8 @@ IssueTrackerApp.module('Entities', function(Entities, IssueTrackerApp, Backbone,
   // Define the Model for an Issue entity
   Entities.Issue = Backbone.Model.extend({
 
+    urlRoot: 'http://localhost:8080/issues',
+
     defaults: {
       status: 'OPEN'
     },

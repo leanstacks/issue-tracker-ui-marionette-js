@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1>Add Issue</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <form role="form">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="form-group">
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-default active">
+                <input type="radio" name="type" value="TASK" autocomplete="off" checked><i class="fa fa-check fa-fw"></i> Task</input>
+              </label>
+              <label class="btn btn-default">
+                <input type="radio" name="type" value="STORY" autocomplete="off"><i class="fa fa-book fa-fw text-primary"></i> Story</input>
+              </label>
+              <label class="btn btn-default">
+                <input type="radio" name="type" value="ENHANCEMENT" autocomplete="off"><i class="fa fa-wrench fa-fw text-muted"></i> Enhancement</input>
+              </label>
+              <label class="btn btn-default">
+                <input type="radio" name="type" value="BUG" autocomplete="off"><i class="fa fa-bug fa-fw text-danger"></i> Bug</input>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-default">
+                <input type="radio" name="priority" value="LOW" autocomplete="off"><i class="fa fa-arrow-down fa-fw text-success"></i> Low</input>
+              </label>
+              <label class="btn btn-default active">
+                <input type="radio" name="priority" value="MEDIUM" autocomplete="off" checked><i class="fa fa-chevron-up fa-fw text-primary"></i> Medium</input>
+              </label>
+              <label class="btn btn-default">
+                <input type="radio" name="priority" value="HIGH" autocomplete="off"><i class="fa fa-arrow-up fa-fw text-danger"></i> High</input>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="issue-title-input" class="control-label">Title</label>
+        <input id="issue-title-input" type="text" name="title" class="form-control" placeholder="Enter a brief title..." autofocus />
+      </div>
+      <div class="form-group">
+        <label for="issue-description-textarea" class="control-label">Description</label>
+        <textarea id="issue-description-textarea" name="description" class="form-control" rows="6" placeholder="Describe the issue..." />
+      </div>
+      <button type="button" class="btn btn-primary js-create" data-loading-text="Creating...">Create</button>
+      <button type="button" class="btn btn-link js-cancel">Cancel</button>
+    </form>
+  </div>
+</div>
+

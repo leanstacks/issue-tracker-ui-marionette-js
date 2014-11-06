@@ -14,7 +14,15 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="#">Home</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Issues <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#" class="js-nav" data-nav-target="issuemanager:list"><i class="fa fa-list fa-fw"></i> List</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><button type="button" class="btn btn-default navbar-btn js-nav" data-nav-target="issuemanager:add"><i class="fa fa-plus fa-fw text-primary"></i> Issue</button></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

@@ -1,5 +1,57 @@
-<td class="col-md-1"><%= priority %></td>
-<td class="col-md-1"><%= type %></td>
-<td class="col-md-1"><%= status %></td>
+<td class="col-md-1">
+<% switch( priority ) {
+     case "LOW": { %>
+  <i class="fa fa-arrow-down fa-fw text-success" title="Low"></i>
+  <%   break;
+     }
+     case "MEDIUM": { %>
+  <i class="fa fa-chevron-up fa-fw text-primary" title="Medium"></i>
+  <%   break;
+     }
+     case "HIGH": { %>
+  <i class="fa fa-arrow-up fa-fw text-danger" title="High"></i>
+  <%   break;
+     } 
+   } %>
+</td>
+
+<td class="col-md-1">
+<% switch( type ) {
+     case "TASK": { %>
+  <i class="fa fa-check fa-fw" title="Task"></i>
+  <%   break;
+     }
+     case "STORY": { %>
+  <i class="fa fa-book fa-fw text-primary" title="Story"></i>
+  <%   break;
+     }
+     case "ENHANCEMENT": { %>
+  <i class="fa fa-wrench fa-fw text-muted" title="Enhancement"></i>
+  <%   break;
+     }
+     case "BUG": { %>
+  <i class="fa fa-bug fa-fw text-danger" title="Bug"></i>
+  <%   break;
+     } 
+   } %>
+</td>
+
+<td class="col-md-1">
+<% switch( status ) {
+     case "OPEN": { %>
+  <span class="label label-primary">Open</span>
+  <%   break;
+     }
+     case "IN_PROGRESS": { %>
+  <span class="label label-warning">In Progress</span>
+  <%   break;
+     }
+     case "DONE": { %>
+  <span class="label label-success">Done</span>
+  <%   break;
+     } 
+   } %>
+</td>
+
 <td class="col-md-9"><%= title %></td>
 
