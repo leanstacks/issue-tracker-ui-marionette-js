@@ -64,7 +64,7 @@ IssueTrackerApp.module('Entities', function(Entities, IssueTrackerApp, Backbone,
   
   // Handle request for a Collection of Issue Entities
   IssueTrackerApp.reqres.setHandler('issue:entities', function() {
-    logger.debug("received 'issue:entities' request");
+    logger.debug("Handling 'issue:entities' request");
     return issueController.getIssues();
   });
   
