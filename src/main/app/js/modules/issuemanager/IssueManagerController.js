@@ -32,8 +32,8 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
 
       // Handle 'form:submit' trigger
       addIssueView.on('form:submit', function(data) {
-        logger.debug("handling 'form:submit' trigger");
-        logger.debug("data:"+JSON.stringify(data));
+        logger.debug("Handling 'form:submit' trigger");
+        logger.debug("form data:"+JSON.stringify(data));
         var issueModel = new IssueTrackerApp.Entities.Issue();
         if(issueModel.save(data, 
           { 

@@ -15,7 +15,7 @@ window.IssueTrackerApp = new Backbone.Marionette.Application();
 
 // Navigate to a route
 IssueTrackerApp.navigate = function(route, options) {
-  logger.debug("navigating to " + route);
+  logger.debug("IssueTrackerApp.navigate route:" + route);
   options = options || {};
   Backbone.history.navigate(route, options);
 };
