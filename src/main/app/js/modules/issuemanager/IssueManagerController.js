@@ -21,6 +21,48 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
           collection: issues
         });
 
+        // Handle 'issue:edit' events triggered by Child Views
+        listView.on('childview:issue:edit', function(args) {
+          logger.debug("Handling 'childview:issue:edit' trigger");
+          var editIssueView = new IssueManager.IssueEditView({
+            model: args.model
+          });
+
+          // Handle 'form:cancel' event
+          editIssueView.on('form:cancel', function() {
+            logger.debug("Handling 'form:cancel' event");
+            logger.debug("Show IssueListView in IssueTrackerApp.mainRegion");
+            IssueTrackerApp.mainRegion.show(listView);
+          });
+          
+          // Handle 'form:submit' event
+          editIssueView.on('form:submit', function(data) {
+            logger.debug("Handling 'form:submit' trigger");
+            logger.debug("form data:"+JSON.stringify(data));
+            var issueModel = args.model;
+            if(issueModel.save(data, 
+              { 
+                success: function() {
+                  logger.debug("Show IssueListView in IssueTrackerApp.mainRegion");
+                  IssueTrackerApp.mainRegion.show(listView);
+                },
+                error: function() {
+                  alert('An unexpected problem has occurred.');
+                }
+              })
+             ) {
+              // validation successful
+            } else {
+              // handle validation errors
+              editIssueView.triggerMethod('form:validation:failed', issueModel.validationError);
+            }
+          });
+
+          logger.debug("Show IssueEditView in IssueTrackerApp.mainRegion");
+          IssueTrackerApp.mainRegion.show(editIssueView,
+            { preventDestroy: true });
+        });
+
         logger.debug("Show IssueListView in IssueTrackerApp.mainRegion");
         IssueTrackerApp.mainRegion.show(listView);
       });
@@ -51,6 +93,7 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
           addIssueView.triggerMethod('form:validation:failed', issueModel.validationError);
         }
       });
+
       logger.debug("Show IssueAddView in IssueTrackerApp.mainRegion");
       IssueTrackerApp.mainRegion.show(addIssueView);
     }

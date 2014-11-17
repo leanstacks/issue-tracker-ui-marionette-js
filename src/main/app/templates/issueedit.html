@@ -1,0 +1,175 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="page-header">
+      <h1>Edit Issue</h1>
+    </div>
+  </div>
+</div>
+
+<div class="row"> <!-- begin outer row -->
+  <div class="col-md-12"> <!-- begin outer column -->
+
+    <form role="form">
+
+      <div class="row">  <!-- begin nested row -->
+
+        <div class="col-md-4"> <!-- begin 1st column -->
+
+          <div class="form-group">
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-default <% if( type === 'TASK') { %> active <% } %>">
+                <input type="radio" 
+                       name="type" 
+                       value="TASK" 
+                  <% if( type === 'TASK') { %> checked <% } %>
+                       autocomplete="off">
+                  <i class="fa fa-check fa-fw"></i> Task
+                </input>
+              </label>
+              <label class="btn btn-default <% if( type === 'STORY') { %> active <% } %>">
+                <input type="radio" 
+                       name="type" 
+                       value="STORY" 
+                  <% if( type === 'STORY') { %> checked <% } %>
+                       autocomplete="off">
+                  <i class="fa fa-book fa-fw text-primary"></i> Story
+                </input>
+              </label>
+              <label class="btn btn-default <% if( type === 'ENHANCEMENT') { %> active <% } %>">
+                <input type="radio" 
+                       name="type" 
+                       value="ENHANCEMENT" 
+                  <% if( type === 'ENHANCEMENT') { %> checked <% } %>
+                       autocomplete="off">
+                  <i class="fa fa-wrench fa-fw text-muted"></i> Enhancement
+                </input>
+              </label>
+              <label class="btn btn-default <% if( type === 'BUG') { %> active <% } %>">
+                <input type="radio" 
+                       name="type" 
+                       value="BUG" 
+                  <% if( type === 'BUG') { %> checked <% } %>
+                       autocomplete="off">
+                  <i class="fa fa-bug fa-fw text-danger"></i> Bug
+                </input>
+              </label>
+            </div>
+          </div>
+
+        </div> <!-- end 1st column -->
+
+        <div class="col-md-4"> <!-- begin 2nd column -->
+
+          <div class="form-group">
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-default <% if( priority === 'LOW') { %> active <% } %>">
+                <input type="radio" 
+                       name="priority" 
+                       value="LOW" 
+                  <% if( priority === 'LOW') { %> checked <% } %>
+                       autocomplete="off">
+                  <i class="fa fa-arrow-down fa-fw text-success"></i> Low
+                </input>
+              </label>
+              <label class="btn btn-default <% if( priority === 'MEDIUM') { %> active <% } %>">
+                <input type="radio" 
+                       name="priority" 
+                       value="MEDIUM" 
+                  <% if( priority === 'MEDIUM') { %> checked <% } %>
+                       autocomplete="off">
+                  <i class="fa fa-chevron-up fa-fw text-primary"></i> Medium
+                </input>
+              </label>
+              <label class="btn btn-default <% if( priority === 'HIGH') { %> active <% } %>">
+                <input type="radio" 
+                       name="priority" 
+                       value="HIGH" 
+                  <% if( priority === 'HIGH') { %> checked <% } %>
+                       autocomplete="off">
+                  <i class="fa fa-arrow-up fa-fw text-danger"></i> High
+                </input>
+              </label>
+            </div>
+          </div>
+
+        </div> <!-- end 2nd column -->
+
+        <div class="col-md-4"> <!-- begin 3rd column -->
+
+          <div class="form-group">
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-default <% if( status === 'OPEN') { %> active <% } %>">
+                <input type="radio" 
+                       name="status" 
+                       value="OPEN" 
+                  <% if( status === 'OPEN') { %> checked <% } %>
+                       autocomplete="off">
+                  Open
+                </input>
+              </label>
+              <label class="btn btn-default <% if( status === 'IN_PROGRESS') { %> active <% } %>">
+                <input type="radio" 
+                       name="status" 
+                       value="IN_PROGRESS" 
+                  <% if( status === 'IN_PROGRESS') { %> checked <% } %>
+                       autocomplete="off">
+                  In Progress
+                </input>
+              </label>
+              <label class="btn btn-default <% if( status === 'DONE') { %> active <% } %>">
+                <input type="radio" 
+                       name="status" 
+                       value="DONE" 
+                  <% if( status === 'DONE') { %> checked <% } %>
+                       autocomplete="off">
+                  Done
+                </input>
+              </label>
+            </div>
+          </div>
+
+        </div> <!-- end 3rd column -->
+
+      </div> <!-- end nested row -->
+
+      <div class="form-group">
+        <label for="issue-title-input" 
+               class="control-label">
+          Title
+        </label>
+        <input id="issue-title-input" 
+               type="text" 
+               name="title" 
+               class="form-control" 
+               placeholder="Enter a brief title..." 
+               autofocus 
+               value="<%= title %>" />
+      </div>
+
+      <div class="form-group">
+        <label for="issue-description-textarea" 
+               class="control-label">
+          Description
+        </label>
+        <textarea id="issue-description-textarea" 
+                  name="description" 
+                  class="form-control" 
+                  rows="6" 
+                  placeholder="Describe the issue..."><%= description %></textarea>
+      </div>
+
+      <button type="button" 
+              class="btn btn-primary js-update" 
+              data-loading-text="Updating...">
+        Update
+      </button>
+      <button type="button" 
+              class="btn btn-link js-cancel">
+        Cancel
+      </button>
+
+    </form>
+
+  </div>  <!-- end outer column -->
+</div> <!-- end outer row -->
+

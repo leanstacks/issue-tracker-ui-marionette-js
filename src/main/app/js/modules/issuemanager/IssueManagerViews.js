@@ -14,7 +14,11 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
   
     tagName: 'tr',
 
-    template: 'issuelistitem'
+    template: 'issuelistitem',
+
+    triggers: {
+      'click .js-edit': 'issue:edit'
+    }
     
   });
 
@@ -72,6 +76,70 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
 
     hideProcessingState: function() {
       this.ui.createButton.button('reset');
+    },
+
+    onFormValidationFailed: function(errors) {
+      this.hideProcessingState();
+      this.hideFormErrors();
+      _.each(errors, this.showFormError, this);
+    },
+
+    showFormError: function(errorMessage, fieldKey) {
+      var $formControl = this.$el.find('[name="'+fieldKey+'"]');
+      var $controlGroup = $formControl.parents('.form-group');
+      var errorContent = '<span class="help-block js-form-error">'+errorMessage+'</span>';
+      $formControl.after(errorContent);
+      $controlGroup.addClass('has-error');
+    },
+
+    hideFormErrors: function() {
+      this.$el.find('.js-form-error').each(function() {
+        $(this).remove();
+      });
+      this.$el.find('.form-group.has-error').each(function() {
+        $(this).removeClass('has-error');
+      });
+    }
+  
+  });
+
+
+  // Define the View for Editing an Issue
+  IssueManager.IssueEditView = Backbone.Marionette.ItemView.extend({
+
+    className: 'container-fluid',
+
+    template: 'issueedit',
+    
+    ui: {
+      updateButton: 'button.js-update',
+      cancelButton: 'button.js-cancel'
+    },
+
+    events: {
+      'click @ui.updateButton': 'onUpdateClicked',
+    },
+
+    triggers: {
+      'click @ui.cancelButton': 'form:cancel'
+    },
+
+    onUpdateClicked: function(e) {
+      logger.debug("IssueEditView.onUpdateClicked");
+      e.preventDefault();
+      this.showProcessingState();
+      var data = Backbone.Syphon.serialize(this);
+      this.trigger('form:submit', data);
+    },
+
+    showProcessingState: function() {
+      var spinnerContent = '<i class="fa fa-circle-o-notch fa-spin"></i> ';
+      this.ui.updateButton.button('loading');
+      this.ui.updateButton.prepend(spinnerContent);
+    },
+
+    hideProcessingState: function() {
+      this.ui.updateButton.button('reset');
     },
 
     onFormValidationFailed: function(errors) {
