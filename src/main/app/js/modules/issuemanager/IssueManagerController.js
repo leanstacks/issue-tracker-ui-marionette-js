@@ -17,6 +17,7 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
       logger.debug("IssueManagerController.list");
       var fetchingIssues = IssueTrackerApp.request('issue:entities');
       $.when(fetchingIssues).done(function(issues) {
+        var layoutView = new IssueManager.IssueListLayoutView();
         var listView = new IssueManager.IssueListView({
           collection: issues
         });
@@ -31,8 +32,9 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
           // Handle 'form:cancel' event
           editIssueView.on('form:cancel', function() {
             logger.debug("Handling 'form:cancel' event");
-            logger.debug("Show IssueListView in IssueTrackerApp.mainRegion");
-            IssueTrackerApp.mainRegion.show(listView);
+            logger.debug("Show IssueListView in IssueListLayoutView.listRegion");
+            layoutView.itemRegion.empty();
+            listView.visible(true);
           });
           
           // Handle 'form:submit' event
@@ -43,8 +45,9 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
             if(issueModel.save(data, 
               { 
                 success: function() {
-                  logger.debug("Show IssueListView in IssueTrackerApp.mainRegion");
-                  IssueTrackerApp.mainRegion.show(listView);
+                  logger.debug("Show IssueListView in IssueListLayoutView.listRegion");
+                  layoutView.itemRegion.empty();
+                  listView.visible(true);
                 },
                 error: function() {
                   alert('An unexpected problem has occurred.');
@@ -58,13 +61,18 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
             }
           });
 
-          logger.debug("Show IssueEditView in IssueTrackerApp.mainRegion");
-          IssueTrackerApp.mainRegion.show(editIssueView,
-            { preventDestroy: true });
+          logger.debug("Show IssueEditView in IssueListLayoutView.itemRegion");
+          listView.visible(false);
+          layoutView.itemRegion.show(editIssueView);
         });
 
-        logger.debug("Show IssueListView in IssueTrackerApp.mainRegion");
-        IssueTrackerApp.mainRegion.show(listView);
+        // Show the List View when the Layout is Shown
+        layoutView.on("show", function() {
+          layoutView.listRegion.show(listView);
+        });
+
+        logger.debug("Show IssueListLayoutView in IssueTrackerApp.mainRegion");
+        IssueTrackerApp.mainRegion.show(layoutView);
       });
     },
 

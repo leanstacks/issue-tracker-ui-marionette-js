@@ -16,6 +16,10 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
 
     template: 'issuelistitem',
 
+    modelEvents: {
+      'change': 'render'
+    },
+
     triggers: {
       'click .js-edit': 'issue:edit'
     }
@@ -33,8 +37,28 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
 
     className: 'container-fluid',
 
-    template: 'issuelist'
+    template: 'issuelist',
+
+    visible: function(isVisible) {
+      if(isVisible) {
+        this.$el.removeClass('hidden');
+      } else {
+        this.$el.addClass('hidden');
+      }
+    }
     
+  });
+
+  // Define the Layout View for the List of Issues
+  IssueManager.IssueListLayoutView = Backbone.Marionette.LayoutView.extend({
+
+    template: 'issuelistlayout',
+
+    regions: {
+      listRegion: '#list-region',
+      itemRegion: '#item-region'
+    }
+
   });
 
   // Define the View for Adding an Issue
