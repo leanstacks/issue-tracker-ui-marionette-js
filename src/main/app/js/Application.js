@@ -28,8 +28,8 @@ IssueTrackerApp.getCurrentRoute = function() {
 // Create the top-level Regions
 IssueTrackerApp.addRegions({
   headerRegion : '#header-region',
-  messageRegion : '#message-region',
   mainRegion   : '#main-region',
+  dialogRegion : '#dialog-region',
   footerRegion : '#footer-region'
 });
 
