@@ -4,7 +4,8 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
   var IssueManagerRouter = Marionette.AppRouter.extend({
 
     appRoutes: {
-      'issues': 'list'
+      'issues': 'list',
+      'issues/:id': 'view'
     }
 
   });
@@ -13,62 +14,23 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
   // Define the Controller for the IssueManager module
   var IssueManagerController = Marionette.Controller.extend({
 
-    list: function() {
+    list: function(collection) {
       logger.debug("IssueManagerController.list");
-      var fetchingIssues = IssueTrackerApp.request('issue:entities');
-      $.when(fetchingIssues).done(function(issues) {
-        var layoutView = new IssueManager.IssueListLayoutView();
+
+      var displayListView = function(issueCollection) {
         var listView = new IssueManager.IssueListView({
-          collection: issues
+          collection: issueCollection
         });
 
         // Handle 'issue:edit' events triggered by Child Views
         listView.on('childview:issue:edit', function(args) {
-          logger.debug("Handling 'childview:issue:edit' trigger");
-          var editIssueView = new IssueManager.IssueEditView({
-            model: args.model
-          });
-
-          // Handle 'form:cancel' event
-          editIssueView.on('form:cancel', function() {
-            logger.debug("Handling 'form:cancel' event");
-            logger.debug("Show IssueListView in IssueListLayoutView.listRegion");
-            layoutView.itemRegion.empty();
-            listView.visible(true);
-          });
-          
-          // Handle 'form:submit' event
-          editIssueView.on('form:submit', function(data) {
-            logger.debug("Handling 'form:submit' trigger");
-            logger.debug("form data:"+JSON.stringify(data));
-            var issueModel = args.model;
-            if(issueModel.save(data, 
-              { 
-                success: function() {
-                  logger.debug("Show IssueListView in IssueListLayoutView.listRegion");
-                  layoutView.itemRegion.empty();
-                  listView.visible(true);
-                },
-                error: function() {
-                  alert('An unexpected problem has occurred.');
-                }
-              })
-             ) {
-              // validation successful
-            } else {
-              // handle validation errors
-              editIssueView.triggerMethod('form:validation:failed', issueModel.validationError);
-            }
-          });
-
-          logger.debug("Show IssueEditView in IssueListLayoutView.itemRegion");
-          listView.visible(false);
-          layoutView.itemRegion.show(editIssueView);
+          logger.debug("Handling 'childview:issue:edit' event");
+          IssueTrackerApp.execute('issuemanager:edit', args.model.get('id'), args.model, issueCollection);
         });
 
         // Handle 'issue:delete' events triggered by Child Views
         listView.on('childview:issue:delete', function(args) {
-          logger.debug("Handling 'childview:issue:delete' trigger");
+          logger.debug("Handling 'childview:issue:delete' event");
           var dialogView = new IssueTrackerApp.Common.DialogView({
             title: "Delete Issue?",
             body: "Click confirm to permanently delete this issue.",
@@ -90,29 +52,45 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
           IssueTrackerApp.dialogRegion.show(dialogView);
         });
 
-        // Show the List View when the Layout is Shown
-        layoutView.on("show", function() {
-          layoutView.listRegion.show(listView);
+        // Handle 'issue:view' events triggered by Child Views
+        listView.on('childview:issue:view', function(args) {
+          logger.debug("Handling 'childview:issue:view' event");
+          IssueTrackerApp.execute('issuemanager:view', args.model.get('id'), args.model, issueCollection);
         });
 
-        logger.debug("Show IssueListLayoutView in IssueTrackerApp.mainRegion");
-        IssueTrackerApp.mainRegion.show(layoutView);
-      });
+        logger.debug("Show IssueListView in IssueTrackerApp.mainRegion");
+        IssueTrackerApp.mainRegion.show(listView);
+      };
+
+      if(collection) {
+        displayListView(collection);
+      } else {
+        var fetchingIssues = IssueTrackerApp.request('issue:entities');
+        $.when(fetchingIssues).done(function(issues) {
+          displayListView(issues);
+        });
+      }
     },
 
-    add: function(issueCollection) {
+    add: function() {
       logger.debug("IssueManagerController.add");
       var addIssueView = new IssueManager.IssueAddView();
 
+      // Handle 'form:cancel' event
+      addIssueView.on('form:cancel', function() {
+        logger.debug("Handling 'form:cancel' event");
+        IssueTrackerApp.execute('issuemanager:list');
+      });
+
       // Handle 'form:submit' trigger
       addIssueView.on('form:submit', function(data) {
-        logger.debug("Handling 'form:submit' trigger");
+        logger.debug("Handling 'form:submit' event");
         logger.debug("form data:"+JSON.stringify(data));
         var issueModel = new IssueTrackerApp.Entities.Issue();
-        if(issueModel.save(data, 
-          { 
+        if(issueModel.save(data,
+          {
             success: function() {
-              controller.list();
+              IssueTrackerApp.execute('issuemanager:view', issueModel.get('id'), issueModel);
             },
             error: function() {
               alert('An unexpected problem has occurred.');
@@ -128,6 +106,88 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
 
       logger.debug("Show IssueAddView in IssueTrackerApp.mainRegion");
       IssueTrackerApp.mainRegion.show(addIssueView);
+    },
+
+    edit: function(id, model, collection) {
+      logger.debug("IssueManagerController.edit");
+
+      var displayEditView = function(issueModel, issueCollection) {
+        var editIssueView = new IssueManager.IssueEditView({
+          model: issueModel
+        });
+
+        // Handle 'form:cancel' event
+        editIssueView.on('form:cancel', function() {
+          logger.debug("Handling 'form:cancel' event");
+          IssueTrackerApp.execute('issuemanager:view', id, issueModel, issueCollection);
+        });
+
+        // Handle 'form:submit' event
+        editIssueView.on('form:submit', function(data) {
+          logger.debug("Handling 'form:submit' event");
+          logger.debug("form data:"+JSON.stringify(data));
+          if(issueModel.save(data,
+            {
+              success: function() {
+                IssueTrackerApp.execute('issuemanager:view', id, issueModel, issueCollection);
+              },
+              error: function() {
+                alert('An unexpected problem has occurred.');
+              }
+            })
+           ) {
+            // validation successful
+          } else {
+            // handle validation errors
+            editIssueView.triggerMethod('form:validation:failed', issueModel.validationError);
+          }
+        });
+
+        logger.debug("Show IssueEditView in IssueTrackerApp.mainRegion");
+        IssueTrackerApp.mainRegion.show(editIssueView);
+      };
+
+      if(model) {
+        displayEditView(model, collection);
+      } else {
+        var fetchingIssue = IssueTrackerApp.request('issue:entity', id);
+        $.when(fetchingIssue).done(function(issue) {
+          displayEditView(issue, collection);
+        });
+      }
+
+    },
+
+    view: function(id, model, collection) {
+      logger.debug("IssueManagerController.view id:" + id);
+
+      var displayView = function(issueModel, issueCollection) {
+        var issueView = new IssueManager.IssueView({
+          model: issueModel
+        });
+
+        issueView.on('issue:list', function(args) {
+          logger.debug("Handling 'issue:list' event");
+          IssueTrackerApp.execute('issuemanager:list', issueCollection);
+        });
+
+        issueView.on('issue:edit', function() {
+          logger.debug("Handling 'issue:edit' event");
+          IssueTrackerApp.execute('issuemanager:edit', issueModel.get('id'), issueModel, issueCollection);
+        });
+
+        logger.debug("Show IssueView in IssueTrackerApp.mainRegion");
+        IssueTrackerApp.mainRegion.show(issueView);
+      };
+
+      if(model) {
+        displayView(model, collection);
+      } else {
+        var fetchingIssue = IssueTrackerApp.request('issue:entity', id);
+        $.when(fetchingIssue).done(function(issue) {
+          displayView(issue, collection);
+        });
+      }
     }
 
   });
@@ -147,16 +207,26 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
 
 
   // Handle application commands...
-  IssueTrackerApp.commands.setHandler('issuemanager:list', function() {
+  IssueTrackerApp.commands.setHandler('issuemanager:list', function(collection) {
     logger.debug("Handling 'issuemanager:list' command");
     IssueTrackerApp.navigate('issues');
-    controller.list();
+    controller.list(collection);
   });
-  
+
   IssueTrackerApp.commands.setHandler('issuemanager:add', function() {
     logger.debug("Handling 'issuemanager:add' command");
     controller.add();
   });
-  
-});
 
+  IssueTrackerApp.commands.setHandler('issuemanager:edit', function(id, model, collection) {
+    logger.debug("Handling 'issuemanager:edit' command");
+    controller.edit(id, model, collection);
+  });
+
+  IssueTrackerApp.commands.setHandler('issuemanager:view', function(id, model, collection) {
+    logger.debug("Handling 'issuemanager:view' command");
+    IssueTrackerApp.navigate('issues/' + id);
+    controller.view(id, model, collection);
+  });
+
+});

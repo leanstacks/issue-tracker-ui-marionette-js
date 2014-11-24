@@ -1,0 +1,144 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="page-header">
+      <h1><%= title %></h1>
+    </div>
+  </div>
+</div>
+
+<div class="row">  <!-- begin actions row -->
+  <div class="col-md-12">  <!-- begin actions column -->
+
+    <div class="actionbar">
+      <button type="button" class="btn btn-default js-list">
+        <i class="fa fa-list fa-fw"></i>
+        List
+      </button>
+      <button type="button" class="btn btn-default js-edit">
+        <i class="fa fa-pencil fa-fw"></i>
+        Edit
+      </button>
+    </div>
+
+  </div> <!-- end actions column -->
+</div> <!-- end actions row -->
+
+<div class="row">  <!-- begin details row -->
+  <div class="col-md-12">  <!-- begin details column -->
+
+    <h4>Details:</h4>
+    <div class="panel panel-default">
+      <div class="panel-body">
+
+        <div class="row"> <!-- begin type row -->
+
+          <div class="col-md-2">  <!-- begin 1st column -->
+            Type:
+          </div> <!-- end 1st column -->
+
+          <div class="col-md-4">  <!-- begin 2nd column -->
+          <% switch( type ) {
+             case "TASK": { %>
+            <span>
+              <i class="fa fa-check fa-fw" title="Task"></i>
+              Task
+            </span>
+            <%   break;
+             }
+             case "STORY": { %>
+            <span>
+              <i class="fa fa-book fa-fw text-primary" title="Story"></i>
+              Story
+            </span>
+            <%   break;
+            }
+            case "ENHANCEMENT": { %>
+            <span>
+              <i class="fa fa-wrench fa-fw text-muted" title="Enhancement"></i>
+              Enhancement
+            </span>
+            <%   break;
+            }
+            case "BUG": { %>
+            <span>
+              <i class="fa fa-bug fa-fw text-danger" title="Bug"></i>
+              Bug
+            </span>
+            <%   break;
+               }
+            } %>
+          </div>  <!-- end 2nd column -->
+
+        </div> <!-- end type row -->
+        <div class="row"> <!-- begin priortity row -->
+
+          <div class="col-md-2">  <!-- begin 1st column -->
+            Priority:
+          </div> <!-- end 1st column -->
+
+          <div class="col-md-4">  <!-- begin 2nd column -->
+          <% switch( priority ) {
+             case "LOW": { %>
+            <span>
+              <i class="fa fa-arrow-down fa-fw text-success" title="Low"></i>
+              Low
+            </span>
+            <%   break;
+             }
+             case "MEDIUM": { %>
+            <span>
+              <i class="fa fa-chevron-up fa-fw text-primary" title="Medium"></i>
+              Medium
+            </span>
+            <%   break;
+            }
+            case "HIGH": { %>
+            <span>
+              <i class="fa fa-arrow-up fa-fw text-danger" title="High"></i>
+              High
+            </span>
+            <%   break;
+               }
+            } %>
+          </div>  <!-- end 2nd column -->
+
+        </div> <!-- end priority row -->
+        <div class="row"> <!-- begin status row -->
+
+          <div class="col-md-2">  <!-- begin 1st column -->
+            Status:
+          </div> <!-- end 1st column -->
+
+          <div class="col-md-4">  <!-- begin 2nd column -->
+          <% switch( status ) {
+             case "OPEN": { %>
+            <span class="label label-primary">Open</span>
+            <%   break;
+             }
+             case "IN_PROGRESS": { %>
+            <span class="label label-warning">In Progress</span>
+            <%   break;
+            }
+            case "DONE": { %>
+            <span class="label label-success">Done</span>
+            <%   break;
+               }
+            } %>
+          </div>  <!-- end 2nd column -->
+
+        </div> <!-- end status row -->
+
+      </div>
+    </div>
+
+  </div> <!-- end details column -->
+</div> <!-- end details row -->
+
+<div class="row">  <!-- begin description row -->
+  <div class="col-md-12">  <!-- begin description column -->
+
+    <h4>Description:</h4>
+    <pre class="panel-pre"><%= description %></pre>
+
+  </div> <!-- end description column -->
+</div> <!-- end description row -->

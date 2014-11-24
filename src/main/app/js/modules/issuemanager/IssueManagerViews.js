@@ -1,17 +1,17 @@
 IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, Backbone, Marionette, $, _) {
-  
+
   // Define the View for an empty List of Issues
   IssueManager.IssueListEmptyView = Backbone.Marionette.ItemView.extend({
-  
+
     tagName: 'tr',
 
     template: 'issuelistempty'
-    
+
   });
 
   // Define the View for a single Issue in the List
   IssueManager.IssueListItemView = Backbone.Marionette.ItemView.extend({
-  
+
     tagName: 'tr',
 
     template: 'issuelistitem',
@@ -22,14 +22,15 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
 
     triggers: {
       'click .js-edit': 'issue:edit',
-      'click .js-delete': 'issue:delete'
+      'click .js-delete': 'issue:delete',
+      'click .js-view': 'issue:view'
     }
-    
+
   });
 
   // Define the View for a List of Issues
   IssueManager.IssueListView = Backbone.Marionette.CompositeView.extend({
-  
+
     emptyView: IssueManager.IssueListEmptyView,
 
     childView: IssueManager.IssueListItemView,
@@ -47,18 +48,6 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
         this.$el.addClass('hidden');
       }
     }
-    
-  });
-
-  // Define the Layout View for the List of Issues
-  IssueManager.IssueListLayoutView = Backbone.Marionette.LayoutView.extend({
-
-    template: 'issuelistlayout',
-
-    regions: {
-      listRegion: '#list-region',
-      itemRegion: '#item-region'
-    }
 
   });
 
@@ -68,21 +57,18 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
     className: 'container-fluid',
 
     template: 'issueadd',
-    
+
     ui: {
       createButton: 'button.js-create',
       cancelButton: 'button.js-cancel'
     },
 
     events: {
-      'click @ui.createButton': 'onCreateClicked',
-      'click @ui.cancelButton': 'onCancelClicked'
+      'click @ui.createButton': 'onCreateClicked'
     },
 
-    onCancelClicked: function(e) {
-      logger.debug("IssueAddView.onCancelClicked");
-      e.preventDefault();
-      IssueTrackerApp.execute('issuemanager:list');
+    triggers: {
+      'click @ui.cancelButton': 'form:cancel'
     },
 
     onCreateClicked: function(e) {
@@ -125,7 +111,7 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
         $(this).removeClass('has-error');
       });
     }
-  
+
   });
 
 
@@ -135,7 +121,7 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
     className: 'container-fluid',
 
     template: 'issueedit',
-    
+
     ui: {
       updateButton: 'button.js-update',
       cancelButton: 'button.js-cancel'
@@ -189,9 +175,22 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
         $(this).removeClass('has-error');
       });
     }
-  
+
   });
 
 
-});
+  // Define the View for a Single Issue
+  IssueManager.IssueView = Backbone.Marionette.ItemView.extend({
 
+    className: 'container-fluid',
+
+    template: 'issueview',
+
+    triggers: {
+      'click .js-list': 'issue:list',
+      'click .js-edit': 'issue:edit'
+    }
+
+  });
+
+});

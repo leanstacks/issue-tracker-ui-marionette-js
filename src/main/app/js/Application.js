@@ -24,7 +24,7 @@ IssueTrackerApp.navigate = function(route, options) {
 IssueTrackerApp.getCurrentRoute = function() {
   return Backbone.history.fragment;
 };
-  
+
 // Create the top-level Regions
 IssueTrackerApp.addRegions({
   headerRegion : '#header-region',
@@ -40,7 +40,9 @@ IssueTrackerApp.on('start', function(options) {
   Backbone.history.start();
 
   // Launch the Issue List
-  IssueTrackerApp.execute('issuemanager:list');
+  if(IssueTrackerApp.getCurrentRoute() == '') {
+    IssueTrackerApp.execute('issuemanager:list');
+  }
 });
 
 
@@ -51,9 +53,8 @@ $( function() {
   consoleAppender = new log4javascript.BrowserConsoleAppender();
   consoleAppender.setLayout(new log4javascript.PatternLayout('%d{HH:mm:ss} %-5p - %m'));
   window.logger.addAppender(consoleAppender);
-  
+
   // Start Marionette Application
   logger.debug("IssueTrackerApp.start");
   IssueTrackerApp.start();
 });
-

@@ -11,7 +11,7 @@
      case "HIGH": { %>
   <i class="fa fa-arrow-up fa-fw text-danger" title="High"></i>
   <%   break;
-     } 
+     }
    } %>
 </td>
 
@@ -32,7 +32,7 @@
      case "BUG": { %>
   <i class="fa fa-bug fa-fw text-danger" title="Bug"></i>
   <%   break;
-     } 
+     }
    } %>
 </td>
 
@@ -49,11 +49,13 @@
      case "DONE": { %>
   <span class="label label-success">Done</span>
   <%   break;
-     } 
+     }
    } %>
 </td>
 
-<td class="col-md-7"><%= title %></td>
+<td class="col-md-7">
+  <a href="#" class="js-view"><%= title %></a>
+</td>
 
 <td class="col-md-2">
   <button type="button" class="btn btn-default btn-xs js-edit">
@@ -63,4 +65,3 @@
     <i class="fa fa-trash fa-fw"></i> Delete
   </button>
 </td>
-
