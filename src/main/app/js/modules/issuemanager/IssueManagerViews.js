@@ -21,9 +21,9 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
     },
 
     triggers: {
+      'click .js-view': 'issue:view',
       'click .js-edit': 'issue:edit',
-      'click .js-delete': 'issue:delete',
-      'click .js-view': 'issue:view'
+      'click .js-delete': 'issue:delete'
     }
 
   });

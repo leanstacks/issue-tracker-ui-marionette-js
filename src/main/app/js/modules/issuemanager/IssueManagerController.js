@@ -85,7 +85,7 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
       // Handle 'form:submit' trigger
       addIssueView.on('form:submit', function(data) {
         logger.debug("Handling 'form:submit' event");
-        logger.debug("form data:"+JSON.stringify(data));
+        logger.debug("form data:" + JSON.stringify(data));
         var issueModel = new IssueTrackerApp.Entities.Issue();
         if(issueModel.save(data,
           {
@@ -125,7 +125,7 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
         // Handle 'form:submit' event
         editIssueView.on('form:submit', function(data) {
           logger.debug("Handling 'form:submit' event");
-          logger.debug("form data:"+JSON.stringify(data));
+          logger.debug("form data:" + JSON.stringify(data));
           if(issueModel.save(data,
             {
               success: function() {
