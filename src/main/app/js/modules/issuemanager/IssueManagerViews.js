@@ -39,15 +39,7 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
 
     className: 'container-fluid',
 
-    template: 'issuelist',
-
-    visible: function(isVisible) {
-      if(isVisible) {
-        this.$el.removeClass('hidden');
-      } else {
-        this.$el.addClass('hidden');
-      }
-    }
+    template: 'issuelist'
 
   });
 
