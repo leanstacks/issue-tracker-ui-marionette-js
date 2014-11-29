@@ -22,6 +22,12 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
           collection: issueCollection
         });
 
+        // Handle 'issue:view' events triggered by Child Views
+        listView.on('childview:issue:view', function(args) {
+          logger.debug("Handling 'childview:issue:view' event");
+          IssueTrackerApp.execute('issuemanager:view', args.model.get('id'), args.model, issueCollection);
+        });
+
         // Handle 'issue:edit' events triggered by Child Views
         listView.on('childview:issue:edit', function(args) {
           logger.debug("Handling 'childview:issue:edit' event");
@@ -50,12 +56,6 @@ IssueTrackerApp.module('IssueManager', function(IssueManager, IssueTrackerApp, B
           });
 
           IssueTrackerApp.dialogRegion.show(dialogView);
-        });
-
-        // Handle 'issue:view' events triggered by Child Views
-        listView.on('childview:issue:view', function(args) {
-          logger.debug("Handling 'childview:issue:view' event");
-          IssueTrackerApp.execute('issuemanager:view', args.model.get('id'), args.model, issueCollection);
         });
 
         logger.debug("Show IssueListView in IssueTrackerApp.mainRegion");
