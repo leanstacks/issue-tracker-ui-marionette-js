@@ -40,7 +40,7 @@ IssueTrackerApp.on('start', function(options) {
   Backbone.history.start();
 
   // Launch the Issue List
-  if(IssueTrackerApp.getCurrentRoute() == '') {
+  if(IssueTrackerApp.getCurrentRoute() === '') {
     IssueTrackerApp.execute('issuemanager:list');
   }
 });
