@@ -24,6 +24,7 @@ gulp.task('lib', function() {
 
 gulp.task('scripts', function() {
   return gulp.src('src/main/app/js/**/*.js')
+    .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(sourcemaps.init())
     .pipe(concat('app.js'))
@@ -38,7 +39,7 @@ gulp.task('scripts', function() {
 
 gulp.task('templates', function() {
   return gulp.src('src/main/app/templates/**/*.html')
-    .pipe(jst({ 
+    .pipe(jst({
        namespace: 'IssueTrackerTemplates',
        name: function(file) { return file.relative.replace(/\.html$/,''); }
      }))
@@ -78,4 +79,3 @@ gulp.task('run', ['lib', 'templates', 'scripts', 'html', 'css'], function() {
       livereload: true
     }));
 });
-
