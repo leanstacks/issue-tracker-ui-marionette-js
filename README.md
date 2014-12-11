@@ -1,2 +1,2 @@
 # Issue Tracker User Interface
-**Backbone.Marionette Stack**
+**Backbone.Marionette Stack** *authored in JavaScript*
