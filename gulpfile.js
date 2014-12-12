@@ -10,7 +10,7 @@ var gulp = require('gulp'),
     del = require('del');
 
 var config = {
-  version: "0.1.0"
+  version: "1.0.0"
 };
 
 gulp.task('clean', function(cb) {
