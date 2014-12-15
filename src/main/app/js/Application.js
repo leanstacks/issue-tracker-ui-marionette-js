@@ -1,10 +1,3 @@
-// Global jQuery AJAX Settings
-//$.ajaxSetup({
-//  xhrFields: {
-//    withCredentials: true
-//  }
-//});
-
 // Customize the Renderer to use Namespacing
 Backbone.Marionette.Renderer.render = function(template, data) {
   return IssueTrackerTemplates[template](data);
