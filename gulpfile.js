@@ -7,7 +7,10 @@ var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     minifycss = require('gulp-minify-css'),
     server = require('gulp-webserver'),
-    del = require('del');
+    del = require('del'),
+    sequence = require('run-sequence'),
+    tar = require('gulp-tar'),
+    gzip = require('gulp-gzip');
 
 var config = {
   version: "1.0.0"
@@ -62,8 +65,19 @@ gulp.task('css', function() {
     .pipe(gulp.dest('dist/assets/app/css'));
 });
 
+gulp.task('tar', function() {
+  return gulp.src('dist/**')
+    .pipe(tar('issuetracker.tar'))
+    .pipe(gzip())
+    .pipe(gulp.dest('dist'));
+});
+
 gulp.task('default', ['clean'], function() {
   gulp.start('lib', 'templates', 'scripts', 'html', 'css');
+});
+
+gulp.task('dist', ['clean'], function() {
+  sequence(['lib', 'templates', 'scripts', 'html', 'css'], 'tar');
 });
 
 gulp.task('run', ['lib', 'templates', 'scripts', 'html', 'css'], function() {
