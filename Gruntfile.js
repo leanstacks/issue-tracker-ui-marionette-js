@@ -15,6 +15,18 @@ module.exports = function(grunt) {
             }
           }
         },
+        compress: {
+          main: {
+            options: {
+              archive: 'dist/issuetracker.tar.gz'
+            },
+            files: [ {
+              expand: true,
+              cwd: 'dist/',
+              src: ['**']
+            } ]
+          }
+        },
         copy : {
           main : {
             files : [ {
@@ -75,6 +87,7 @@ module.exports = function(grunt) {
 
   // Load Plugins
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -84,7 +97,7 @@ module.exports = function(grunt) {
 
   // Define Tasks
   grunt.registerTask('default', [ 'jshint', 'clean', 'copy', 'jst', 'uglify' ]);
-  grunt.registerTask('dist', [ 'jshint', 'clean', 'copy', 'jst', 'uglify' ]);
+  grunt.registerTask('dist', [ 'default', 'compress' ]);
   grunt.registerTask('run', [ 'default', 'connect:server', 'watch' ]);
 
 };
